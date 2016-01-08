@@ -1,0 +1,9 @@
+name = Youtube Channel Nodes
+description = Fetch youtube channel videos on cron run.
+core = 7.x
+files[] = css/youtubechannel.css
+files[] = js/youtubechannel.js
+files[] = youtubechannel.admin.inc
+files[] = youtubechannel.module
+files[] = youtubechannel_videos.tpl.php
+package = Youtube

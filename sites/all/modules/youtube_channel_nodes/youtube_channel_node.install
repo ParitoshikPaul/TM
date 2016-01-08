@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function youtube_channel_nodes_install(){
+
+    $videos = array(
+        'type' => 'youtube_channel_videos',
+        'name' => st('Youtube Channel Videos'),
+        'base' => 'node_content',
+        'description' => st('Create a new content for youtube channel video'),
+        'custom' => TRUE,
+        'modified' => TRUE,
+        'locked' => FALSE,
+    );
+
+    $videos_type = node_type_set_defaults($videos);
+    node_type_save($videos_type);
+    node_add_body_field($videos_type);
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function youtube_channel_nodes_disable(){
+
+    node_type_delete('youtube_channel_videos');
+    drupal_flush_all_caches();
+
+}
