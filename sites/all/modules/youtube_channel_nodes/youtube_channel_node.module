@@ -1,0 +1,27 @@
+<?php
+
+//function youtube_channel_nodes_menu(){
+//
+//}
+//
+//function youtube_channel_credentials(){
+//
+//}
+
+function youtube_channel_nodes_cron(){
+
+
+    $nodes = node_load_multiple(array(), array( 'type' => 'youtube_channel_videos'));
+    foreach($nodes as $node):
+        $vid = $node->field_youtube_url['und'][0]['value'];
+        $path = "https://www.googleapis.com/youtube/v3/videos?id=$vid&key=AIzaSyBM9EKV2bcCHH_kyIIj37hGFy08W8YM030&part=statistics";
+        $xmlfile = drupal_http_request($path);
+        $youtube_videos = $obj = json_decode($xmlfile->data);
+        $views = $youtube_videos->items[0]->statistics->viewCount;
+        $likes = $youtube_videos->items[0]->statistics->likeCount;
+        $node->field_likes['und'][0]['value'] = $likes;
+        $node->field_views['und'][0]['value'] = $views;
+        node_save($node);
+    endforeach;
+    watchdog('my_debug', $vid);
+}
